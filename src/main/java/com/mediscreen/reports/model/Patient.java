@@ -30,7 +30,7 @@ public class Patient {
     private String phone;
 
     public int getAge() {
-        LocalDate birthday = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("yyyy-MM-d"));
+        LocalDate birthday = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         LocalDate today = LocalDate.now();
         return Period.between(birthday, today).getYears();
 

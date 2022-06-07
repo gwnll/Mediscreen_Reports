@@ -34,14 +34,14 @@ public class ReportService {
 
     }
 
-    private int countTriggersOccurrences(String observations) {
+    public int countTriggersOccurrences(String observations) {
         return Arrays.stream(Trigger.values())
                 .map(e -> observations.contains(e.getEn()) || observations.contains(e.getFr()) ? 1 : 0)
                 .reduce(Integer::sum)
                 .orElse(0);
     }
 
-    private RiskLevel getRiskLevel(int triggersOccurrences, Patient patient) {
+    public RiskLevel getRiskLevel(int triggersOccurrences, Patient patient) {
         RiskLevel riskLevel = RiskLevel.NONE;
         if ((triggersOccurrences == 2) && (patient.getAge() <= 30)) {
             riskLevel = RiskLevel.BORDERLINE;
