@@ -1,34 +1,33 @@
 package com.mediscreen.reports;
 
 import com.mediscreen.reports.model.Gender;
-import com.mediscreen.reports.model.Note;
 import com.mediscreen.reports.model.Patient;
 import com.mediscreen.reports.model.RiskLevel;
 import com.mediscreen.reports.proxies.NotesProxy;
 import com.mediscreen.reports.proxies.PatientsProxy;
 import com.mediscreen.reports.service.ReportService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
+import org.junit.runner.RunWith;
+import org.junit.Test;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
-import java.util.List;
+import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
+@RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
 public class ReportServiceTest {
 
     @Autowired
     ReportService reportService;
 
-    @Mock
+    @MockBean
     NotesProxy notesProxy;
 
-    @Mock
+    @MockBean
     PatientsProxy patientsProxy;
 
     @Test
@@ -46,8 +45,8 @@ public class ReportServiceTest {
         patient.setBirthdate("15-03-1995");
         patient.setGender(Gender.MALE);
 
-        RiskLevel riskLevelOnSet = reportService.getRiskLevel(triggersOccurrences, patient);
-        Assertions.assertSame(riskLevelOnSet, RiskLevel.EARLYONSET);
+        RiskLevel riskLevel = reportService.getRiskLevel(triggersOccurrences, patient);
+        Assertions.assertSame(riskLevel, RiskLevel.EARLYONSET);
     }
 
 //    @Test
@@ -64,17 +63,8 @@ public class ReportServiceTest {
 
     @Test
     public void generateReport() {
-        Patient patient = patientsProxy.getPatientById(1).orElseThrow(() -> new IllegalArgumentException("Invalid patient Id:" + 1));
-        List<Note> notes = notesProxy.getAllNotes(1);
-
-        String observations = notes.stream()
-                .map(Note::getObservations)
-                .reduce((a, b) -> a.concat(" ").concat(b))
-                .orElse("");
-
-        int triggersOccurrences = reportService.countTriggersOccurrences(observations);
-
-        RiskLevel riskLevel = reportService.getRiskLevel(triggersOccurrences, patient);
+        RiskLevel riskLevel = reportService.generateReport(1);
+        Assertions.assertSame(riskLevel, RiskLevel.EARLYONSET);
     }
 
 }
