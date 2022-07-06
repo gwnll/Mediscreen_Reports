@@ -23,3 +23,9 @@ Mediscreen_Reports is a REST micro-service connected to a MySQL database. The us
 1) Build the 3 different jar
 2) Create the 3 different images with docker ``build -t (image_name)``
 3) 
+
+### API Documentation
+- Swagger 3 : http://localhost:8083/swagger-ui/index.html#/
+
+### API REST Endpoints
+![API REST Endpoints](https://github.com/gwnll/Mediscreen_Reports/blob/main/report-controller.jpg)
