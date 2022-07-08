@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class ReportService {
@@ -34,16 +35,31 @@ public class ReportService {
 
     }
 
+    public RiskLevel generateReport(Patient patient) {
+        List<Note> notes = notesProxy.getAllNotes(patient.getId());
+
+        String observations = notes.stream()
+                .map(Note::getObservations)
+                .reduce((a, b) -> a.concat(" ").concat(b))
+                .orElse("");
+
+        int triggersOccurrences = countTriggersOccurrences(observations);
+
+        return getRiskLevel(triggersOccurrences, patient);
+
+    }
+
     public int countTriggersOccurrences(String observations) {
+        String lowerCase = observations.toLowerCase(Locale.ROOT);
         return Arrays.stream(Trigger.values())
-                .map(e -> observations.contains(e.getEn()) || observations.contains(e.getFr()) ? 1 : 0)
+                .map(e -> lowerCase.contains(e.getEn()) || lowerCase.contains(e.getFr()) ? 1 : 0)
                 .reduce(Integer::sum)
                 .orElse(0);
     }
 
     public RiskLevel getRiskLevel(int triggersOccurrences, Patient patient) {
         RiskLevel riskLevel = RiskLevel.NONE;
-        if ((triggersOccurrences == 2) && (patient.getAge() <= 30)) {
+        if ((triggersOccurrences == 2) && (patient.getAge() >= 30)) {
             riskLevel = RiskLevel.BORDERLINE;
         } else if (((triggersOccurrences == 3) && (patient.getAge() <= 30) && (patient.getGender() == Gender.MALE)) ||
                 ((triggersOccurrences == 4) && (patient.getAge() <= 30) && (patient.getGender() == Gender.FEMALE)) ||

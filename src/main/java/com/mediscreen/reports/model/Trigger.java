@@ -1,20 +1,18 @@
 package com.mediscreen.reports.model;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 public enum Trigger {
 
-    HEMOGLOBINE("Hémoglobine A1C", "Hemoglobine A1C"),
-    MICROALBUMINE("Microalbumine", "Microalbumine"),
-    TAILLE("Taille", "Height"),
-    POIDS("Poids", "Weight"),
-    FUMEUR("Fumeur", "Smoker"),
-    ANORMAL("Anormal", "Abnormal"),
-    CHOLESTÉROL("Cholestérol", "Cholesterol"),
-    VERTIGE("Vertige", "Vizziness");
+    HEMOGLOBINE("hémoglobine A1C", "hemoglobine A1C"),
+    MICROALBUMINE("microalbumine", "microalbumine"),
+    TAILLE("taille", "height"),
+    POIDS("poids", "weight"),
+    FUMEUR("fumeur", "smoker"),
+    ANORMAL("anormal", "abnormal"),
+    CHOLESTÉROL("cholestérol", "cholesterol"),
+    VERTIGE("vertige", "dizziness"),
+    RECHUTE("rechute", "relapse"),
+    REACTION("réaction", "reaction"),
+    ANTICORPS("anticorps", "antibodies");
 
     private final String fr;
 

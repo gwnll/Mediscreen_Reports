@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mediscreen</groupId>
-	<artifactId>notes</artifactId>
+	<artifactId>reports</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>notes</name>
+	<name>reports</name>
 	<description>Mediscreen Reports Microservice</description>
 	<properties>
 		<java.version>11</java.version>
@@ -52,7 +52,27 @@
 			<version>1.10.19</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.9</version>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>2.2.1</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -79,6 +99,61 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.21.0</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.junit.platform</groupId>
+						<artifactId>junit-platform-surefire-provider</artifactId>
+						<version>1.2.0</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>integration-test</id>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<phase>integration-test</phase>
+						<configuration>
+							<excludes>
+								<exclude>none</exclude>
+							</excludes>
+							<includes>
+								<include>**/*IT.java</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.5</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<configuration>
+							<excludes>
+								<exclude>**/model/*</exclude>
+								<exclude>**/proxies/*</exclude>
+								<exclude>**/ReportsApplication.class</exclude>
+							</excludes>
+						</configuration>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

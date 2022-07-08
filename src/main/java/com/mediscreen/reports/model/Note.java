@@ -16,4 +16,11 @@ public class Note {
     @NotNull(message = "observations cannot be null")
     public String observations;
 
+    public Note() {
+
+    }
+
+    public Note(String observations) {
+        this.observations = observations;
+    }
 }
