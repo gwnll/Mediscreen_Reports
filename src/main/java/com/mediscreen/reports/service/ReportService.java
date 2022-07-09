@@ -59,16 +59,17 @@ public class ReportService {
 
     public RiskLevel getRiskLevel(int triggersOccurrences, Patient patient) {
         RiskLevel riskLevel = RiskLevel.NONE;
-        if ((triggersOccurrences == 2) && (patient.getAge() >= 30)) {
-            riskLevel = RiskLevel.BORDERLINE;
-        } else if (((triggersOccurrences == 3) && (patient.getAge() <= 30) && (patient.getGender() == Gender.MALE)) ||
-                ((triggersOccurrences == 4) && (patient.getAge() <= 30) && (patient.getGender() == Gender.FEMALE)) ||
-                ((triggersOccurrences == 6) && (patient.getAge() >= 30))) {
-            riskLevel = RiskLevel.INDANGER;
-        } else if (((triggersOccurrences == 5) && (patient.getAge() <= 30) && (patient.getGender() == Gender.MALE)) ||
-                ((triggersOccurrences == 7) && (patient.getAge() <= 30) && (patient.getGender() == Gender.FEMALE)) ||
+        if (((triggersOccurrences >= 5) && (patient.getAge() <= 30) && (patient.getGender() == Gender.MALE)) ||
+                ((triggersOccurrences >= 7) && (patient.getAge() <= 30) && (patient.getGender() == Gender.FEMALE)) ||
                 ((triggersOccurrences >= 8) && (patient.getAge() >= 30))) {
             riskLevel = RiskLevel.EARLYONSET;
+        } else if (((triggersOccurrences >= 3) && (patient.getAge() <= 30) && (patient.getGender() == Gender.MALE)) ||
+                ((triggersOccurrences >= 4) && (patient.getAge() <= 30) && (patient.getGender() == Gender.FEMALE)) ||
+                ((triggersOccurrences >= 6) && (patient.getAge() >= 30))) {
+            riskLevel = RiskLevel.INDANGER;
+        } else if
+        ((triggersOccurrences >= 2) && (patient.getAge() >= 30)) {
+            riskLevel = RiskLevel.BORDERLINE;
         }
         return riskLevel;
 
